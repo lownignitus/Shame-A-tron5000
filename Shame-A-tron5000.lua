@@ -62,6 +62,13 @@ end
 
 function satEvents_table.eventFrame:GROUP_ROSTER_UPDATE()
 	print("Group Roster Updated")
+	if IsInRaid() then
+		print("In a Raid")
+	elseif IsInGroup() then
+		print("In a Group")
+	else
+		print("Either solo, or fucked up party detection...")
+	end
 end
 
 function satEvents_table.eventFrame:ZONE_CHANGED()
