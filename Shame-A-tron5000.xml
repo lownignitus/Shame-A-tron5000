@@ -7,26 +7,46 @@
 	<Script file="Shame-A-tron5000.lua"/>
 
 	<!-- Main Frame -->
-	<Frame name="satFrame" frameStrata="BACKGROUND" movable="true" clampToScreen="true" parent="UIParent">
+	<Frame name="satFrame" frameStrata="BACKGROUND" movable="true" clampedToScreen="true" parent="UIParent">
+		<Size x="300" y="400" />
 		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
 			<BackgroundInsets>
 				<AbsInset left="3" right="3" top="3" bottom="3" />
 			</BackgroundInsets>
 			<TileSize>
-				<AbsValue value="32" />
+				<AbsValue val="32" />
 			</TileSize>
 			<EdgeSize>
-				<AbsValue value="16" />
+				<AbsValue val="16" />
 			</EdgeSize>
-			<!-- Colour -->
 		</Backdrop>
-		<Size x="300" y="400" />
 		<Anchors>
 			<Anchor point="CENTER" relativePoint="CENTER" relativeTo="UIParent" />
 		</Anchors>
 
-		<!-- Display Frames -->
 		<Frames>
+			<!-- Title Frame -->
+			<Frame name="$parentTitle" frameStrata="BACKGROUND" movable="false" parentKey="title">
+				<Size x="292" y="18" />
+				<Anchors>
+					<Anchor point="CENTER" relativePoint="TOP" relativeTo="$parent" x="0" y="-11" />
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<FontString name="$parentTitle" font="Fonts\FRIZQT__.TTF" justifyH="CENTER" justifyV="MIDDLE" parentKey="text">
+							<Size>
+								<AbsDimension x="290" y="16" />
+							</Size>
+							<FontHeight val="14" />
+							<Anchors>
+								<Anchor point="CENTER" relativePoint="CENTER" relativeTo="$parent" />
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+			</Frame>
+			
+			<!-- Display Frames -->
 			<Frame name="satDisplayFrame" movable="false">
 				<Size x="292" y="392" />
 				<Anchors>

@@ -8,8 +8,8 @@ satEvents_table.eventFrame = CF("Frame");
 satEvents_table.eventFrame:RegisterEvent("ADDON_LOADED");
 satEvents_table.eventFrame:RegisterEvent("LFG_BOOT_PROPOSAL_UPDATE");
 satEvents_table.eventFrame:RegisterEvent("GROUP_ROSTER_UPDATE");
-satEvents_table.eventFrame:RegisterEvent("ZONE_CHANGED");
-satEvents_table.eventFrame:RegisterEvent("ZONE_CHANGED_INDOORS");
+--satEvents_table.eventFrame:RegisterEvent("ZONE_CHANGED");
+--satEvents_table.eventFrame:RegisterEvent("ZONE_CHANGED_INDOORS");
 satEvents_table.eventFrame:RegisterEvent("ZONE_CHANGED_NEW_AREA");
 
 satEvents_table.eventFrame:SetScript("OnEvent", function(self, event, ...)
@@ -73,10 +73,6 @@ end
 
 function satEvents_table.eventFrame:ZONE_CHANGED()
 	print("Zone Changed")
-end
-
-function satEvents_table.eventFrame:ZONE_CHANGED_INDOORS()
-	print("Zone Changed Indoors")
 end
 
 function satEvents_table.eventFrame:ZONE_CHANGED_NEW_AREA()
