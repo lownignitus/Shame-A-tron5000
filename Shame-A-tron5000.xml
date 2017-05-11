@@ -5,4 +5,52 @@
 ..\..\FrameXML\UI.xsd">
 
 	<Script file="Shame-A-tron5000.lua"/>
+
+	<!-- Main Frame -->
+	<Frame name="satFrame" frameStrata="BACKGROUND" movable="true" clampToScreen="true" parent="UIParent">
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+			<BackgroundInsets>
+				<AbsInset left="3" right="3" top="3" bottom="3" />
+			</BackgroundInsets>
+			<TileSize>
+				<AbsValue value="32" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue value="16" />
+			</EdgeSize>
+			<!-- Colour -->
+		</Backdrop>
+		<Size x="300" y="400" />
+		<Anchors>
+			<Anchor point="CENTER" relativePoint="CENTER" relativeTo="UIParent" />
+		</Anchors>
+
+		<!-- Display Frames -->
+		<Frames>
+			<Frame name="satDisplayFrame" movable="false">
+				<Size x="292" y="392" />
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="satFrame" x="0" y="-3" />
+				</Anchors>
+			</Frame>
+		</Frames>
+
+		<Scripts>
+			<OnLoad>
+				self:RegisterForDrag("LeftButton");
+			</OnLoad>
+			<OnDragStart>
+				self:StartMoving();
+			</OnDragStart>
+			<OnDragStop>
+				self:StopMovingOrSizing();
+			</OnDragStop>
+			<OnEnter>
+
+			</OnEnter>
+			<OnLeave>
+
+			</OnLeave>
+		</Scripts>
+	</Frame>
 </Ui>
