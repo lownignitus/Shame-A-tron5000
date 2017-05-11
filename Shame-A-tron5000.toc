@@ -1,0 +1,13 @@
+## Interface: 70200
+## Title: |cff00ff00Shame-A-tron 5000|r
+## Author: |cffDA70D6LownIgnitus|r Mihkael@US-Alexstrasza
+## Version: |cffFF4500v1.0.0|r
+## X-Date: 29/03/2017
+## X-Website: https://www.facebook.com/groups/190240457669378/
+## Notes: Addon to allow ranking of players by amount of shame 
+## X-Notes2: and then assigning raid icons based on level. Can also 1 click start vote to kick.
+## Dependancies:
+## SavedVariables: 
+## SavedVariablesPerCharacter: satSettings
+
+Shame-A-tron5000.xml
