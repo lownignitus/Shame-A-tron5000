@@ -1,6 +1,11 @@
 CF = CreateFrame
 local addon_name = "Shame-A-tron5000"
 
+local groupMax = 0
+local numMembers = 0
+local errorCount = 0
+local i, name, rank, subgroup, level, class, fileName, zone, online, isDead, role, isML, combatRole,fullName
+
 -- RegisterForEvent table
 local satEvents_table = {}
 
@@ -64,10 +69,45 @@ function satEvents_table.eventFrame:GROUP_ROSTER_UPDATE()
 	print("Group Roster Updated")
 	if IsInRaid() then
 		print("In a Raid")
+		groupMax = 40
+		satGroupNum()
 	elseif IsInGroup() then
 		print("In a Group")
+		groupMax = 5
+		satGroupNum()
 	else
 		print("Either solo, or fucked up party detection...")
+	end
+end
+
+function satGroupNum()
+	numMembers = GetNumGroupMembers()
+	print("numMembers: " .. numMembers)
+	satRosterInfo(numMembers)
+end
+
+function satRosterInfo(numMembers)
+	i = 1
+	while i < (numMembers + 1) do
+		--[[name w/ server, 2= Raid Lead 1= Assistant 0=otherwise, raid group in # = group#, if offline = 0, localized 
+		class name, English class name, value of GetRealZoneText(), 1= online nil=off, 1=dead nil=alive, role in raid 
+		ie "miantank" or "mainassist", 1=master loot, nil=otherwise, spec role if selected "DAMAGER" "TANK" "HEALER" or 
+		"NONE" if not assigned]] 
+		name, rank, subgroup, level, class, fileName, zone, online, isDead, role, isML, combatRole = GetRaidRosterInfo(i)
+		if name == nil then
+			print("group phasing error")
+			errorCount = errorCount + 1
+			if errorCount < 5 then
+				if i == 1 then
+					i = 1
+				elseif i > 1 then
+					i = i - 1
+				end
+			end
+		elseif name ~= nil then
+			print("raidIndex: " .. i .. ", name: " .. name .. ", level: " .. level .. ", class: " .. class .. ", fileName: " .. fileName .. ", combatRole: " .. combatRole .. ".")
+			i = i + 1
+		end
 	end
 end
 
