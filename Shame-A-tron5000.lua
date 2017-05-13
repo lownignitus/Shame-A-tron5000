@@ -1,10 +1,9 @@
 CF = CreateFrame
 local addon_name = "Shame-A-tron5000"
-
-local groupMax = 0
+ 
 local numMembers = 0
 local errorCount = 0
-local i, name, rank, subgroup, level, class, fileName, zone, online, isDead, role, isML, combatRole,fullName
+local groupType, i, name, rank, subgroup, level, class, fileName, zone, online, isDead, role, isML, combatRole,fullName
 
 -- RegisterForEvent table
 local satEvents_table = {}
@@ -69,11 +68,11 @@ function satEvents_table.eventFrame:GROUP_ROSTER_UPDATE()
 	print("Group Roster Updated")
 	if IsInRaid() then
 		print("In a Raid")
-		groupMax = 40
+		groupType = "Raid"
 		satGroupNum()
 	elseif IsInGroup() then
 		print("In a Group")
-		groupMax = 5
+		groupType = "Party"
 		satGroupNum()
 	else
 		print("Either solo, or fucked up party detection...")
