@@ -3,7 +3,13 @@ local addon_name = "Shame-A-tron5000"
  
 local numMembers = 0
 local errorCount = 0
-local groupType, i, name, rank, subgroup, level, class, fileName, zone, online, isDead, role, isML, combatRole,fullName
+local groupType, i, name, rank, subgroup, level, class, fileName, zone, online, isDead, role, isML, combatRole, fullName, isInstance, instanceType, zoneName
+local satDisplayFrameData = {}
+satDisplayFrameData.name = {}
+satDisplayFrameData.guid = {}
+satDisplayFrameData.level = {}
+satDisplayFrameData.fileName = {}
+satDisplayFrameData.shame = {}
 
 -- RegisterForEvent table
 local satEvents_table = {}
@@ -67,32 +73,33 @@ end
 function satEvents_table.eventFrame:GROUP_ROSTER_UPDATE()
 	print("Group Roster Updated")
 	if IsInRaid() then
-		print("In a Raid")
+		--print("In a Raid")
 		groupType = "Raid"
-		satGroupNum()
+		satGroupNum(groupType)
 	elseif IsInGroup() then
-		print("In a Group")
+		--print("In a Group")
 		groupType = "Party"
-		satGroupNum()
+		satGroupNum(groupType)
 	else
-		print("Either solo, or fucked up party detection...")
+		print("Solo, or left groupm, ")
 	end
 end
 
-function satGroupNum()
+function satGroupNum(groupType)
 	numMembers = GetNumGroupMembers()
 	print("numMembers: " .. numMembers)
-	satRosterInfo(numMembers)
+	satRosterInfo(numMembers, groupType)
 end
 
-function satRosterInfo(numMembers)
+function satRosterInfo(numMembers, groupType)
 	i = 1
 	for i = 1, numMembers do
-		--[[name w/ server, 2= Raid Lead 1= Assistant 0=otherwise, raid group in # = group#, if offline = 0, localized 
-		class name, English class name, value of GetRealZoneText(), 1= online nil=off, 1=dead nil=alive, role in raid 
-		ie "miantank" or "mainassist", 1=master loot, nil=otherwise, spec role if selected "DAMAGER" "TANK" "HEALER" or 
-		"NONE" if not assigned]] 
-		name, rank, subgroup, level, class, fileName, zone, online, isDead, role, isML, combatRole = GetRaidRosterInfo(i)
+		--[[name(name w/ server), rank(2= Raid Lead 1= Assistant 0=otherwise), subgroup(raid group in # = group#, if 
+		offline = 0), class(localized class name), fileName(English class name), zone(value of GetRealZoneText()), 
+		online(1= online nil=off), isDead(1=dead nil=alive), role(role in raid ie "miantank" or "mainassist"), 
+		isML(1=master loot, nil=otherwise), combatRole(spec role if selected "DAMAGER" "TANK" "HEALER" or 
+		"NONE" if not assigned)]] 
+		name, _, _, level, _, fileName, _, _, _, _, _, _ = GetRaidRosterInfo(i)
 		if name == nil then
 			errorCount = errorCount + 1
 			print("group phasing error .. name reported as nil .. errorCount: " .. errorCount)
@@ -102,11 +109,22 @@ function satRosterInfo(numMembers)
 				elseif i > 1 then
 					i = i - 1
 				end
+			elseif errorCount > 5 then
+				errorCount = 0
 			end
 		elseif name ~= nil then
-			print("raidIndex: " .. i .. ", name: " .. name .. ", level: " .. level .. ", class: " .. class .. ", fileName: " .. fileName .. ", combatRole: " .. combatRole .. ".")
+			--print("raidIndex: " .. i .. ", name: " .. name .. ", fileName: " .. fileName .. ", zone: " .. zone .. ".")
+			satDisplayFrameData.name[i] = name
+			satDisplayFrameData.guid[i] = UnitGUID(groupType .. i)
+			satDisplayFrameData.level[i] = level
+			satDisplayFrameData.fileName[i] = fileName
+			print("satDisplayFrameData saves: name: " .. satDisplayFrameData.name[i])
 		end
 	end
+end
+
+function satDisplayFrame( ... )
+	-- body
 end
 
 function satEvents_table.eventFrame:ZONE_CHANGED()
@@ -114,5 +132,12 @@ function satEvents_table.eventFrame:ZONE_CHANGED()
 end
 
 function satEvents_table.eventFrame:ZONE_CHANGED_NEW_AREA()
-	print("Zone Changed New Area")
+	--print("Zone Changed New Area")
+	isInstance, instanceType = IsInInstance()
+	if isInstance == true then
+		zoneName = GetZoneText()
+		local ZoneName = GetRealZoneText()
+		print(zoneName .. ", " .. ZoneName)
+		satGroupNum(instanceType)
+	end
 end
