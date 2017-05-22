@@ -101,17 +101,10 @@ function satRosterInfo(numMembers, groupType)
 		"NONE" if not assigned)]] 
 		name, _, _, level, _, fileName, _, _, _, _, _, _ = GetRaidRosterInfo(i)
 		if name == nil then
-			errorCount = errorCount + 1
-			print("group phasing error .. name reported as nil .. errorCount: " .. errorCount)
-			if errorCount < 5 then
-				if i == 1 then
-					i = 1
-				elseif i > 1 then
-					i = i - 1
-				end
-			elseif errorCount > 5 then
-				errorCount = 0
-			end
+			print("name error")
+			satDisplayFrameData.guid[i] = UnitGUID(groupType .. i)
+			satDisplayFrameData.name[i] = GetUnitName(groupType .. i):gsub("%-.+", "")
+			print("name is now: " .. satDisplayFrameData.name[i])
 		elseif name ~= nil then
 			--print("raidIndex: " .. i .. ", name: " .. name .. ", fileName: " .. fileName .. ", zone: " .. zone .. ".")
 			satDisplayFrameData.name[i] = name
